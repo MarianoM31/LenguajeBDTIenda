@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">    
+    <!--le falta cambiar todo pero por ahorita se muestra solo mover unas cosas y ya estaria -->
+
+    <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
+    <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light" >
+        <div class="containe-agregar" >
+            <div class="ro"  >                
+                <button    
+                    id="open"
+                    type="button" 
+                    class="botn-agregar botn-primary botn-block"                     
+                    data-bs-toggle="modal" 
+                    data-bs-target="#agregarRopa">
+                    <i class="fas fa-plus"></i> Agregar ropa
+                </button>
+            </div>
+        </div>
+        </div>
+    </section>   
+
+
+    <section th:fragment="agregarRopa">
+        <div id="agregarRopa" 
+             class="modal fade" 
+             tabindex="-1" 
+             aria-labelledby="exampleModalLabel" 
+             aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header bg-infor text-white">
+                        <h5 class="modal-title">Agregar</h5>
+                        <button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                    </div> 
+                    <form th:action="@{/ropa/guardar}" th:object="${ropa}"
+                          method="POST" class="was-validated" enctype="multipart/form-data">
+
+                        <input type="hidden" name="nuevaImagen" value="NO"/>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="categoria">Categoria</label>
+                                <select id="categoria"
+                                        name="categoria.idCategoria" 
+                                        class="form-select" 
+                                        aria-label="Default select example">
+                                    <option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="${c.descripcion}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ropa">Descripcion</label>
+                                <textarea type="text" class="form-control" name="descripcion" required="true"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ropa">Talla</label>                                    
+                                <input class="form-control" name="talla" rows="3"/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ropa">Precio</label>                                    
+                                <input type="number" class="form-control" name="precio" required="true"/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ropa">Stocks</label>                                    
+                                <input type="number" class="form-control" name="existencias" required="true"/>
+                            </div>                            
+
+                            <div class="mb-3">
+                                <label for="imagen">Imagen</label>
+                                <input class="form-control" type="file" name="imagenFile"
+                                       onchange="readURL(this);" >
+                                    <img id="blah" src="#" alt="your image" height="200"/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="activo">Activo</label>
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       name="activo" 
+                                       id="activo">
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="botn botn-primary" type="submit">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br>
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Para mostrar la ropa -->
+    <section th:fragment="listadoRopas" id="ropas">
+        <div class="containe">
+            <div class="ro">
+                <div class="cen">
+                    <div class="pa">
+                        <div class="pa-header">
+                            <h4 class="text-cen">Lista de ropa</h4>
+                        </div>
+                        <div th:if="${ropas != null and !ropas.empty}">
+                            <table class="tabla tabla-bordered separador">
+                                <thead class="tabla-dar">
+                                    <tr><th>#</th>
+                                        <th class="text-cen">Descripcion</th>                                        
+                                        <th class="text-cen">Talla</th>
+                                        <th class="text-cen">Precio</th>
+                                        <th class="text-cen">Stock</th>                                                                                                                           
+                                        <th class="text-cen">Activo</th>
+                                        <th class="text-cen" >Imagen</th>
+                                        <th class="text-cen">Total</th>
+                                        <th></th><th></th></tr>
+                                </thead>
+                                <tbody>
+                                    <div>
+                                        <tr th:each="ropa, contador : ${ropas}">
+                                            <td class="text-cen texto">[[${contador.count}]]</td>
+                                            <td class="descrip_fs texto">[[${ropa.descripcion}]]</td>                                            
+                                            <td class="fs-6 texto">[[${ropa.talla}]]</td>
+                                            <td class="text-end texto">[[${#numbers.formatDecimal(ropa.precio, 1, 'DEFAULT', 2, 'DEFAULT')}]]</td>
+                                            <td class="text-cen texto">[[${ropa.existencias}]]</td>                                                                                                                                  
+                                            <td  class="text-cen texto" th:text="${ropa.activo} ? 'Activa' : 'Inactiva'" />  
+                                            <td><img class="ImagenPrenda" th:src="${ropa.rutaImagen}" ></td>
+
+
+                                            <td class="text-end texto">[[${#numbers.formatDecimal(ropa.precio*ropa.existencias, 1, 'DEFAULT', 2, 'DEFAULT')}]]</td>
+                                            <td><a th:href="@{/ropa/eliminar/}+${ropa.idRopa}"
+                                                   class="botn botn-danger">
+                                                    <i class="fas fa-trash "></i> Eliminar</a></td>
+                                            <td>
+                                                <a th:href="@{/ropa/modificar/}+${ropa.idRopa}"
+                                                   class="botn botn-success">
+                                                    <i class="fas fa-pencil "></i> Actualizar</a></td>                                           
+                                        </tr>                                     
+                                    </div>
+                                    <hr>                                             
+                                </tbody>                                    
+                            </table>
+                        </div>
+                        <div class="text-cen p-2" th:if="${ropas == null or ropas.empty}">
+                            <span>Lista vacia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="pa text-cen bog-success text-white mb-3">
+                        <div class="pa-body">
+                            <h3>Ropas</h3>
+                            <h4 class="fs-2"><i class="fas fa-users"></i>[[${totalRopas}]]</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 4 Fragmento que se utiliza en la página modifca.html -->
+    <section th:fragment="editarRopa">
+        <div class="ro">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <form method="POST"
+                      th:action="@{/ropa/guardar}" 
+                      th:object="${ropa}"
+                      class="was-validated"                          
+                      enctype="multipart/form-data">
+                    <input type="hidden" name="idRopa" th:field="*{idRopa}"/>
+                    <input type="hidden" name="rutaImagen" th:field="*{rutaImagen}"/>
+                    <input type="hidden" name="nuevaImagen" value="NO"/>
+
+                    <section th:replace="~{ropa/fragmentos :: botonesEditar}"/>
+                    <div id=details>
+                        <div class="containe">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4>Actualizar]</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="categoria">Categoria</label>
+                                                <select th:field="*{categoria.idCategoria}"
+                                                        class="form-select" 
+                                                        aria-label="Default select example">
+                                                    <option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="${c.descripcion}">
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="descripcion">Descripcion</label>
+                                                <textarea type="text" class="form-control" name="descripcion"
+                                                          th:field="*{descripcion}"  required="true"></textarea>
+                                            </div>
+
+
+                                            <div class="mb-3">
+                                                <label for="talla">Talla</label>                                    
+                                                <input class="form-control"  th:field="*{talla}" name="talla" rows="3"/>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="precio">Precio</label>                                    
+                                                <input type="number" class="form-control" 
+                                                       th:field="*{precio}" required="true"/>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="existencias">Existencias</label>                                    
+                                                <input type="number" class="form-control" 
+                                                       th:field="*{existencias}" required="true"/>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="rutaImagen">Imagen</label>
+                                                <input class="form-control" type="file" name="imagenFile"
+                                                       onchange="readURL(this);" />
+                                                <img id="blah" th:src="@{${ropa.rutaImagen}}" alt="your image" height="200"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="activo">Activo</label>
+                                                <input class="form-check-input" 
+                                                       type="checkbox" 
+                                                       th:field="*{activo}" 
+                                                       id="activo">
+                                            </div>     
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 Fragmento que se utiliza en el fragmento anterior -->
+    <section th:fragment="botonesEditar">
+        <div class="containe py-4 mb-4 bg-light">
+            <div class="row">
+                <div class="col-md-4 d-grid">
+                    <a th:href="@{/ropa/listado}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Regrasar
+                    </a>
+                </div>
+                <div class="col-md-4 d-grid">                                
+                    <a th:href="@{/ropa/eliminar/}+${ropa.idRopa}"
+                       class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </a>
+                </div>
+                <div class="col-md-4 d-grid">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
