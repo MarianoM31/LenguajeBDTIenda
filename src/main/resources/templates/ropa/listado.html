@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/199/xhtml">      
+    <head th:replace="~{layout/plantilla :: head}">     
+        <title>Store</title>
+
+    </head>
+    <body>
+        <header th:replace="~{layout/plantilla :: heade}"/>
+        <br>
+        <br>
+
+        <section th:replace="~{ropa/fragmentos :: botonesAgregar}" />        
+        <section th:replace="~{ropa/fragmentos :: agregarRopa}"/>
+        <section th:replace="~{ropa/fragmentos :: listadoRopas}" />  
+
+
+        <footer th:replace="~{layout/plantilla :: footer_todo}"/>
+    </body>
+</html>
