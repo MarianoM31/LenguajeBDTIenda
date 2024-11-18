@@ -39,8 +39,5 @@ public class RopaServiceImpl implements RopaService {
     @Transactional
     public void delete(Ropa ropa) {
         ropaDao.delete(ropa);
-    }
-
-    
-    
+    } 
 }

@@ -1,5 +1,4 @@
 package com.proyecto.controller;
-
 import com.proyecto.domain.Cosas;
 import com.proyecto.domain.Ropa;
 import com.proyecto.service.CategoriaService;

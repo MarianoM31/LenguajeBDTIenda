@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ropa")
+@Table(name = "ROPA")
 public class Ropa implements Serializable {
 
     
