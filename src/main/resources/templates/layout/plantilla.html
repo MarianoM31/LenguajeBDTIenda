@@ -17,32 +17,9 @@
 
         <header th:fragment="heade" class="header">
 
-            <a class="link log">Tienda</a>                          
-            <br>
-                <br>
-                    <ul class="menu">                        
-                        <li class="menu-item"><a class="link menu-link ">Inicio</a></li>
-                        <li class="menu-item"><a class="link menu-link ">Categoría</a></li>
-                        <li class="menu-item"><a th:href="@{/ropa/listado}" class="link menu-link">Ropa</a></li>                              
-                        <div class="icon-esquin">
-                            <a><i class="fa-solid fa-cart-shopping"></i></a>                         
-                            <a><i  class="fa-solid fa-user"></i></a>                                                      
-                        </div>
-                    </ul>        
-                    <br>
+            <a class="link log" th:href="@{/templates/index}">P&B</a>       
                         </header>
-                        <aside th:fragment="aside">
-                            <br/>
-                            <br/>
-                            <h2 class="titulo">Tienda </h2>
-                            <br/>
-                            <p> <b>Bienvenido a nuestra exclusiva tienda de ropa, un destino elegante que celebra la moda para mujeres, niños y hombres con un toque refinado. 
-                                    Nuestra boutique es un santuario de estilo donde la sofisticación se encuentra con la comodidad, y la elegancia se fusiona con la practicidad.
-                                    Para las mujeres, ofrecemos una selección cuidadosamente curada de prendaars que abrazan la feminidad y la modernidad. Desde vestidos de noche deslumbrantes hasta conjuntos de trabajo pulidos, cada pieza es una obra maestra de diseño que resalta la belleza única de cada mujer.
-                                    Los niños pueden explorar la moda desde temprana edad con nuestra colección infantil. Con prendas adorables y a la moda, hemos creado un espacio donde los pequeños pueden expresar su personalidad y sentirse cómodos al mismo tiempo.
-                                    Para los hombres que buscan elegancia sin esfuerzo, nuestra sección masculina presenta trajes a medida, prendas casuales y accesorios de calidad que reflejan una masculinidad moderna y distinguida.</b></p>            
-                            <br/>
-                        </aside>
+                       
                         <footer th:fragment="footer_todo" class="foot">
                             <br>
                                 <p>Nuestras Redes</p>

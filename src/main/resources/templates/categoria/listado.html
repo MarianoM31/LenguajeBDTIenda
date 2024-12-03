@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Categorías - Store</title>
+    </head>
+    <body>
+        <header th:replace="~{layout/plantilla :: header}"></header>
+        <br>
+        <br>
+
+        <!-- Fragmento: Botón Agregar -->
+        <section th:replace="~{categoria/fragmentos :: botonesAgregar}" class="mt-3"></section>
+
+        <!-- Fragmento: Modal Agregar Categoría -->
+        <section th:replace="~{categoria/fragmentos :: agregarCategoria}" class="mt-3"></section>
+
+        <!-- Fragmento: Listado de Categorías -->
+        <section th:replace="~{categoria/fragmentos :: listadoCategoria}" class="mt-3"></section>
+
+        <footer th:replace="~{layout/plantilla :: footer}"></footer>
+    </body>
+</html>
